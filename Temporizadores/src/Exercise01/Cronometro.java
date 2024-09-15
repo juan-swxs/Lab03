@@ -52,7 +52,7 @@ public class Cronometro extends JFrame {
         tiempoLabel.setForeground(Color.BLACK);
         panel.add(tiempoLabel, cuadricula);
 
-        cuadricula.gridy = -1;
+        cuadricula.gridy = 1;
         cuadricula.gridwidth = 1;
 
         panel.add(new JLabel("Tiempo para primera alarma (s):"), cuadricula);
