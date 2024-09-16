@@ -3,6 +3,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -69,6 +73,7 @@ public class Cronometro extends JFrame {
                 actualizarTiempo();
                 if(alarmaActiva && segundos == alarmaSegundos){
                     panel.setBackground(Color.GREEN);
+                    reproducirSonido("Sounds/TimeSoun.wav");
                 }
             }
         });
@@ -95,6 +100,18 @@ public class Cronometro extends JFrame {
             System.out.println("Por favor, introduce un número válido para la alarma.");
         }
 
+    }
+
+    private void reproducirSonido(String archivoSonido) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(archivoSonido).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error al reproducir el sonido.");
+            ex.printStackTrace();
+        }
     }
 
 }
