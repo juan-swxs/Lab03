@@ -7,10 +7,12 @@ import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
@@ -19,11 +21,15 @@ public class Cronometro extends JFrame {
     private JLabel tiempoLabel;
     private JLabel tiempoLabel2;
     private JPanel panel;
+    private JPanel radioBJPanel;
     private JTextField alarmaTextField;
     private Timer timer;
+    private String[] songs = {"TimeSoun.wav","Bedside.wav","Overs.wav"};
+    private JRadioButton[] playList;
     private int segundos = 0;
     private int alarmaSegundos = -1;
     private boolean alarmaActiva = false;
+    private String selecSong = songs[0];
 
     public Cronometro(){
 
@@ -38,7 +44,7 @@ public class Cronometro extends JFrame {
         panel.setLayout(null);
         tiempoLabel = new JLabel("00:00:00");
         tiempoLabel.setFont(new Font("Serif", Font.BOLD, 34));
-        tiempoLabel.setBounds(100, 32, 195, 50); 
+        tiempoLabel.setBounds(100, 37, 195, 50); 
         panel.add(tiempoLabel);
 
         alarmaTextField = new JTextField(10); 
@@ -46,7 +52,7 @@ public class Cronometro extends JFrame {
         panel.add(alarmaTextField);
 
         tiempoLabel2 = new JLabel("Tiempo para primera alarma (s) :");
-        tiempoLabel2.setFont(new Font("Serif", Font.BOLD, 12));
+        tiempoLabel2.setFont(new Font("Serif", Font.BOLD, 13));
         tiempoLabel2.setBounds(30, 80, 200, 50); 
         panel.add(tiempoLabel2);
 
@@ -62,6 +68,11 @@ public class Cronometro extends JFrame {
             }
         });
 
+        radioBJPanel = new JPanel();
+        radioBJPanel.setBounds(8, 3, 300, 90);
+        chooseSound();
+        panel.add(radioBJPanel);
+
         this.getContentPane().add(panel);
     }
        
@@ -73,7 +84,8 @@ public class Cronometro extends JFrame {
                 actualizarTiempo();
                 if(alarmaActiva && segundos == alarmaSegundos){
                     panel.setBackground(Color.GREEN);
-                    reproducirSonido("Sounds/TimeSoun.wav");
+                    radioBJPanel.setBackground(Color.GREEN);
+                    reproducirSonido("Sounds/" + selecSong);
                 }
             }
         });
@@ -112,6 +124,26 @@ public class Cronometro extends JFrame {
             System.out.println("Error al reproducir el sonido.");
             ex.printStackTrace();
         }
+    }
+
+    private void chooseSound(){
+        playList = new JRadioButton[songs.length];
+        ButtonGroup group = new ButtonGroup(); 
+
+        for (int n = 0; n < songs.length; n++) {
+            final int index = n;
+            playList[n] = new JRadioButton(songs[n]);
+            playList[n].setFont(new Font("Serif", Font.BOLD, 11));
+            playList[n].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selecSong = songs[index];
+                }
+            });
+            radioBJPanel.add(playList[n]);
+            group.add(playList[n]); 
+        }
+        
     }
 
 }
