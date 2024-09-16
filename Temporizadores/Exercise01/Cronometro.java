@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,13 +29,9 @@ public class Cronometro extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Cronometro con alarma.");
 
-        IniciarComp();
+        Paneles();
         iniciarTimer();
 
-    }
-
-    private void IniciarComp(){
-        Paneles();
     }
 
     private void Paneles(){
@@ -59,21 +56,44 @@ public class Cronometro extends JFrame {
         cuadricula.gridx = 1;
         alarmaTextField = new JTextField(10);
         panel.add(alarmaTextField, cuadricula);
+
+        cuadricula.gridy = 2;
+        cuadricula.gridx = 0;
+        cuadricula.gridwidth = 2;
+
+        JButton configurarAlarmaBtn = new JButton("Configurar Alarma");
+        panel.add(configurarAlarmaBtn, cuadricula);
+
+        configurarAlarmaBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                configuralarma();
+            }
+        });
+
         this.getContentPane().add(panel);
     }
-      
+       
     private void iniciarTimer() {
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 segundos++;
-                if(alarmaActiva && segundos == alarmaSegundos){
-                    configuralarma();
-                }
+                actualizarTiempo();
             }
         });
 
         timer.start();
+    }
+
+
+    private void actualizarTiempo() {
+        int horas = segundos / 3600;
+        int minutos = (segundos % 3600) / 60;
+        int seg = segundos % 60;
+
+        String tiempoFormat = String.format("%02d:%02d:%02d", horas, minutos, seg);
+        tiempoLabel.setText(tiempoFormat);
     }
 
 
@@ -87,7 +107,6 @@ public class Cronometro extends JFrame {
         }
 
     }
-
 
 }
     
