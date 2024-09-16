@@ -1,9 +1,6 @@
 package Exercise01;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -16,57 +13,47 @@ import javax.swing.Timer;
 public class Cronometro extends JFrame {
 
     private JLabel tiempoLabel;
+    private JLabel tiempoLabel2;
+    private JPanel panel;
     private JTextField alarmaTextField;
     private Timer timer;
     private int segundos = 0;
     private int alarmaSegundos = -1;
     private boolean alarmaActiva = false;
 
-
     public Cronometro(){
 
-        setBounds(500, 100, 400, 500);
+        setBounds(500, 100, 340, 240);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Cronometro con alarma.");
-
         Paneles();
-        iniciarTimer();
-
     }
 
     private void Paneles(){
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        GridBagConstraints cuadricula  = new GridBagConstraints();
-        cuadricula.insets = new Insets(10, 10, 10, 10);
-        cuadricula.fill = GridBagConstraints.HORIZONTAL;
-        cuadricula.gridx = 0;
-        cuadricula.gridy = 0;
-        cuadricula.gridwidth = 2;
-
+        panel = new JPanel();
+        panel.setLayout(null);
         tiempoLabel = new JLabel("00:00:00");
-        tiempoLabel.setFont(new Font("Serif", Font.BOLD, 30));
-        tiempoLabel.setForeground(Color.BLACK);
-        panel.add(tiempoLabel, cuadricula);
+        tiempoLabel.setFont(new Font("Serif", Font.BOLD, 34));
+        tiempoLabel.setBounds(100, 32, 195, 50); 
+        panel.add(tiempoLabel);
 
-        cuadricula.gridy = 1;
-        cuadricula.gridwidth = 1;
+        alarmaTextField = new JTextField(10); 
+        alarmaTextField.setBounds(210, 97, 100, 24);
+        panel.add(alarmaTextField);
 
-        panel.add(new JLabel("Tiempo para primera alarma (s):"), cuadricula);
-        cuadricula.gridx = 1;
-        alarmaTextField = new JTextField(10);
-        panel.add(alarmaTextField, cuadricula);
+        tiempoLabel2 = new JLabel("Tiempo para primera alarma (s) :");
+        tiempoLabel2.setFont(new Font("Serif", Font.BOLD, 12));
+        tiempoLabel2.setBounds(30, 80, 200, 50); 
+        panel.add(tiempoLabel2);
 
-        cuadricula.gridy = 2;
-        cuadricula.gridx = 0;
-        cuadricula.gridwidth = 2;
-
-        JButton configurarAlarmaBtn = new JButton("Configurar Alarma");
-        panel.add(configurarAlarmaBtn, cuadricula);
+        JButton configurarAlarmaBtn = new JButton("Iniciar Alarma");
+        configurarAlarmaBtn.setBounds(85, 140, 170, 27);
+        panel.add(configurarAlarmaBtn);
 
         configurarAlarmaBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                iniciarTimer();
                 configuralarma();
             }
         });
@@ -80,6 +67,9 @@ public class Cronometro extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 segundos++;
                 actualizarTiempo();
+                if(alarmaActiva && segundos == alarmaSegundos){
+                    panel.setBackground(Color.GREEN);
+                }
             }
         });
 
@@ -95,7 +85,6 @@ public class Cronometro extends JFrame {
         String tiempoFormat = String.format("%02d:%02d:%02d", horas, minutos, seg);
         tiempoLabel.setText(tiempoFormat);
     }
-
 
     private void configuralarma(){
         try {
