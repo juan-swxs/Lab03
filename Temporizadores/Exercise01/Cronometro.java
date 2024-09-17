@@ -28,14 +28,16 @@ public class Cronometro extends JFrame {
     private Timer timer;
     private String[] songs = {"TimeSoun.wav","Bedside.wav","Overs.wav"};
     private JRadioButton[] playList;
+    private Clip clip;
     private int segundos = 0;
     private int alarmaSegundos = -1;
     private boolean alarmaActiva = false;
+    private boolean inPause = true;
     private String selecSong = songs[0];
 
     public Cronometro(){
 
-        setBounds(500, 100, 340, 240);
+        setBounds(500, 100, 340, 220);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Cronometro con alarma.");
         Paneles();
@@ -53,9 +55,9 @@ public class Cronometro extends JFrame {
         alarmaTextField.setBounds(210, 97, 100, 24);
         panel.add(alarmaTextField);
 
-        tiempoLabel2 = new JLabel("Tiempo para primera alarma (s) :");
+        tiempoLabel2 = new JLabel("Tiempo para primera alarma (s):");
         tiempoLabel2.setFont(new Font("Serif", Font.BOLD, 13));
-        tiempoLabel2.setBounds(30, 80, 200, 50); 
+        tiempoLabel2.setBounds(21, 80, 200, 50); 
         panel.add(tiempoLabel2);
 
         ImageIcon icon = new ImageIcon("Image/Pause.jpg");
@@ -65,12 +67,28 @@ public class Cronometro extends JFrame {
         configurarAlarmaCtn.setBounds(50, 140, 30, 27);
         panel.add(configurarAlarmaCtn);
 
+        configurarAlarmaCtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MethoPause();
+            }
+        });
+
         ImageIcon icon3Icon = new ImageIcon("Image/Repetir.jpg");
         Image imgScaled3 = icon3Icon.getImage().getScaledInstance(30, 27, Image.SCALE_SMOOTH);
 
         JButton configurarAlarmaDtn = new JButton(new ImageIcon(imgScaled3));
         configurarAlarmaDtn.setBounds(250, 140, 30, 27);
         panel.add(configurarAlarmaDtn);
+
+        configurarAlarmaDtn.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MethodRepeat();
+            }
+            
+        });
 
         ImageIcon icon2 = new ImageIcon("Image/Reproductor.jpg");
         Image imgScaled2 = icon2.getImage().getScaledInstance(30, 27, Image.SCALE_SMOOTH);
@@ -105,6 +123,9 @@ public class Cronometro extends JFrame {
                 if(alarmaActiva && segundos == alarmaSegundos){
                     panel.setBackground(Color.GREEN);
                     radioBJPanel.setBackground(Color.GREEN);
+                    for(int n = 0; n < songs.length; n++){
+                        playList[n].setBackground(Color.GREEN);
+                    }
                     reproducirSonido("Sounds/" + selecSong);
                 }
             }
@@ -137,12 +158,11 @@ public class Cronometro extends JFrame {
     private void reproducirSonido(String archivoSonido) {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(archivoSonido).getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
         } catch (Exception ex) {
             System.out.println("Error al reproducir el sonido.");
-            ex.printStackTrace();
         }
     }
 
@@ -153,6 +173,7 @@ public class Cronometro extends JFrame {
         for (int n = 0; n < songs.length; n++) {
             final int index = n;
             playList[n] = new JRadioButton(songs[n]);
+            playList[n].setOpaque(true);
             playList[n].setFont(new Font("Serif", Font.BOLD, 11));
             playList[n].addActionListener(new ActionListener() {
                 @Override
@@ -164,6 +185,38 @@ public class Cronometro extends JFrame {
             group.add(playList[n]); 
         }
         
+    }
+
+    private void MethoPause(){
+        inPause = !inPause;
+        
+        if(!inPause){
+            timer.stop();
+        }else{
+            timer.start();
+        }
+    }
+
+    private void MethodRepeat(){
+
+        if (timer != null) {
+            timer.stop();
+        }
+        
+        segundos = 0;
+        actualizarTiempo();
+        
+        alarmaTextField.setText("");
+        
+        alarmaSegundos = -1;
+        alarmaActiva = false;
+        
+        panel.setBackground(null);
+        for(int n = 0; n < songs.length; n++){
+            playList[n].setBackground(null);
+        }
+        radioBJPanel.setBackground(null);
+        clip.close();
     }
 
 }
