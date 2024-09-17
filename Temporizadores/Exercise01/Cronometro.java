@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.Timer;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 
 public class Cronometro extends JFrame {
 
@@ -56,8 +58,25 @@ public class Cronometro extends JFrame {
         tiempoLabel2.setBounds(30, 80, 200, 50); 
         panel.add(tiempoLabel2);
 
-        JButton configurarAlarmaBtn = new JButton("Iniciar Alarma");
-        configurarAlarmaBtn.setBounds(85, 140, 170, 27);
+        ImageIcon icon = new ImageIcon("Image/Pause.jpg");
+        Image imgScaled = icon.getImage().getScaledInstance(30, 27, Image.SCALE_SMOOTH);
+
+        JButton configurarAlarmaCtn = new JButton(new ImageIcon(imgScaled));
+        configurarAlarmaCtn.setBounds(50, 140, 30, 27);
+        panel.add(configurarAlarmaCtn);
+
+        ImageIcon icon3Icon = new ImageIcon("Image/Repetir.jpg");
+        Image imgScaled3 = icon3Icon.getImage().getScaledInstance(30, 27, Image.SCALE_SMOOTH);
+
+        JButton configurarAlarmaDtn = new JButton(new ImageIcon(imgScaled3));
+        configurarAlarmaDtn.setBounds(250, 140, 30, 27);
+        panel.add(configurarAlarmaDtn);
+
+        ImageIcon icon2 = new ImageIcon("Image/Reproductor.jpg");
+        Image imgScaled2 = icon2.getImage().getScaledInstance(30, 27, Image.SCALE_SMOOTH);
+
+        JButton configurarAlarmaBtn = new JButton(new ImageIcon(imgScaled2));
+        configurarAlarmaBtn.setBounds(150, 140, 30, 27);
         panel.add(configurarAlarmaBtn);
 
         configurarAlarmaBtn.addActionListener(new ActionListener() {
@@ -72,6 +91,7 @@ public class Cronometro extends JFrame {
         radioBJPanel.setBounds(8, 3, 300, 90);
         chooseSound();
         panel.add(radioBJPanel);
+
 
         this.getContentPane().add(panel);
     }
