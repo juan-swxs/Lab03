@@ -1,7 +1,6 @@
 package src;    
 import Exercise01.*;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,7 @@ public class Main{
     public static JButton[] boton;
 
     public static void main(String[] args) {
-        String titulo = "Lab01: Introducción al lenguaje Java";
+        String titulo = "Lab03: Temporizadores";
 
         String opciones[] = {"Cronometro", "Animacion"};
 
