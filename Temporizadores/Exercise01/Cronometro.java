@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Random;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -34,6 +35,7 @@ public class Cronometro extends JFrame {
     private boolean alarmaActiva = false;
     private boolean inPause = true;
     private String selecSong = songs[0];
+    private Random random;
 
     public Cronometro(){
 
@@ -121,10 +123,12 @@ public class Cronometro extends JFrame {
                 segundos++;
                 actualizarTiempo();
                 if(alarmaActiva && segundos == alarmaSegundos){
-                    panel.setBackground(Color.GREEN);
-                    radioBJPanel.setBackground(Color.GREEN);
+                    random = new Random();
+                    Color colorRandom = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+                    panel.setBackground(colorRandom);
+                    radioBJPanel.setBackground(colorRandom);
                     for(int n = 0; n < songs.length; n++){
-                        playList[n].setBackground(Color.GREEN);
+                        playList[n].setBackground(colorRandom);
                     }
                     reproducirSonido("Sounds/" + selecSong);
                 }
