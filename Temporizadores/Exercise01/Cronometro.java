@@ -63,7 +63,7 @@ public class Cronometro extends JFrame {
         panel.add(tiempoLabel2);
 
         ImageIcon icon = new ImageIcon("Image/Pause.jpg");
-        Image imgScaled = icon.getImage().getScaledInstance(30, 27, Image.SCALE_SMOOTH);
+        Image imgScaled  = icon.getImage().getScaledInstance(30, 27, Image.SCALE_SMOOTH);
 
         JButton configurarAlarmaCtn = new JButton(new ImageIcon(imgScaled));
         configurarAlarmaCtn.setBounds(50, 140, 30, 27);
@@ -154,6 +154,7 @@ public class Cronometro extends JFrame {
             alarmaSegundos = segundosAlarma;
             alarmaActiva = true;
         } catch (NumberFormatException ex) {
+            timer.stop();
             System.out.println("Por favor, introduce un número válido para la alarma.");
         }
 
@@ -220,7 +221,10 @@ public class Cronometro extends JFrame {
             playList[n].setBackground(null);
         }
         radioBJPanel.setBackground(null);
-        clip.close();
+        
+        if(clip != null && clip.isRunning()){
+            clip.close();
+        }
     }
 
 }

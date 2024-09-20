@@ -1,5 +1,6 @@
 package src;    
 import Exercise01.*;
+import Exercise02.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -44,6 +45,8 @@ public class Main{
                             break;
                         case 1:
                             boton[index].setEnabled(!boton[index].isEnabled());
+                            Animacion anim = new Animacion();
+                            anim.setVisible(true);
                             break;
                     }
                 }
