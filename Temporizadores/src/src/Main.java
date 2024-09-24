@@ -1,4 +1,4 @@
-package src;    
+package src.src;    
 import Exercise01.*;
 import Exercise02.*;
 import java.awt.BorderLayout;
