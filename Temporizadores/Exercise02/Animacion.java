@@ -5,7 +5,6 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
@@ -13,7 +12,7 @@ import javax.swing.event.ChangeListener;
 
 public class Animacion extends JFrame {
 
-    private JPanel panel;
+    private BackgroundPanel backgroundPanel;
     private JLabel animationJLabel;
     private JSlider slider;
     private String[] isImages = {
@@ -36,23 +35,23 @@ public class Animacion extends JFrame {
 
         paneles();
         sliderCreation();
-        isAnimation();
+        isAnimation(); 
     }
 
     private void paneles(){
-        panel = new JPanel();
-        panel.setLayout(null);
-        
-        this.getContentPane().add(panel);
+        backgroundPanel = new BackgroundPanel("Image/Fondo.png");
+        backgroundPanel.setLayout(null);
+        this.getContentPane().add(backgroundPanel);
     }
 
     private void sliderCreation(){
-        slider = new JSlider(JSlider.HORIZONTAL, 50, 2000, 1000);
+        slider = new JSlider(JSlider.HORIZONTAL, 10, 1000, 500);
+        slider.setInverted(true);
         slider.setBounds(80, 250, 230, 50);
-        slider.setMajorTickSpacing(380);
+        slider.setMajorTickSpacing(160);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-        panel.add(slider);
+        backgroundPanel.add(slider);
     }
 
     private void isAnimation(){
@@ -73,7 +72,8 @@ public class Animacion extends JFrame {
             }
         });
 
-        panel.add(animationJLabel);
+
+        backgroundPanel.add(animationJLabel);
         timer.start();
     }
     
